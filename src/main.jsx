@@ -1,31 +1,22 @@
 import ReactDOM from 'react-dom/client'
 import App from './App'
 
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
+import {
+  ApolloClient,
+
+  ApolloProvider,
+  InMemoryCache,
+} from '@apollo/client'
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
   cache: new InMemoryCache(),
 })
 
-const query = gql`
-  query {
-    allPersons  {
-      name,
-      phone,
-      address {
-        street,
-        city
-      }
-      id
-    }
-  }
-`
+ReactDOM.createRoot(document.getElementById('root')).render(
 
-client.query({ query })
-  .then((response) => {
-    console.log(response.data)
-  })
+  <ApolloProvider client={client}>
+    <App />
 
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+  </ApolloProvider>
+)
